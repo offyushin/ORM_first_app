@@ -1,3 +1,4 @@
+import 'package:bmi_calculator/calenderscreen/calender.dart';
 import 'package:bmi_calculator/result/result_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class _MainScreenState extends State<MainScreen> {
   final _fromKey = GlobalKey<FormState>();
   final _heightController = TextEditingController();
   final _weightController = TextEditingController();
+  final _myCalendar = MyCalendar();
 
   @override
   void initState() {
@@ -48,6 +50,9 @@ class _MainScreenState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromRGBO(91, 109, 146, 46),
@@ -90,6 +95,21 @@ class _MainScreenState extends State<MainScreen> {
                 },
               ),
               const SizedBox(height: 8),
+              TextFormField(
+                controller: _heightController,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: '종',
+                ),
+                keyboardType: TextInputType.number,
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return '종을 입력하세요';
+                  }
+                  return null;
+                },
+              ),
+              const SizedBox(height: 8),
               ElevatedButton(
                 onPressed: () {
                   if (_fromKey.currentState?.validate() == false) {
@@ -109,7 +129,12 @@ class _MainScreenState extends State<MainScreen> {
                 },
                 child: const Text('결과'),
               ),
-              Image.asset('assets/dan.jpg'),
+              SizedBox(
+                width: screenWidth,
+                height: screenHeight * 0.7,
+                child: MyCalendar(
+                ),
+              )
             ],
           ),
         ),
